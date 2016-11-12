@@ -1,0 +1,25 @@
+{
+  "name": "magical-cards",
+  "version": "0.1.0",
+  "description": "An app to play Magic: The Gathering",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/connorlay/magical-cards.git"
+  },
+  "keywords": [
+    "mtg",
+    "electron"
+  ],
+  "author": "Connor Lay, Maggie Dreyer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/connorlay/magical-cards/issues"
+  },
+  "homepage": "https://github.com/connorlay/magical-cards#readme"
+}
