@@ -3,19 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <script type="text/javascript" src="./elm.js"></script>
-    <script>window.Elm = require('./elm.js');</script>
+    <script>window.Elm = require('./build/elm.js');</script>
   </head>
 
-  <body>
-      <div id="main-div" style="width:50%; height:400px;"></div>
-  </body>
+  <body></body>
 
   <script>
-    // get an empty <div>
-    var div = document.getElementById('main-div');
-
-    // embed our Elm program in that <div>
     Elm.Mtg.fullscreen(Elm.Stamper);
   </script>
 </html>
