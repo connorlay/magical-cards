@@ -8,8 +8,10 @@ This application runs ontop of [electron](http://electron.atom.io/) with the cor
 
 ## Installation
 
-1. Install [npm](https://www.npmjs.com/)
-2. Run `$ npm install`
+1. Install [nvm](https://github.com/creationix/nvm)
+2. Run `$ nvm use`
+3. Install [npm](https://www.npmjs.com/)
+4. Run `$ npm install`
 
 ## Running the application
 
