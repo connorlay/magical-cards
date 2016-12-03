@@ -28,4 +28,21 @@ library =
                 \() ->
                     Expect.equal ( Nothing, [] ) <| pop []
             ]
+        , describe "adding a card"
+            [ test "to the top" <|
+                \() ->
+                    let
+                        library =
+                            [ Card "a", Card "b", Card "c" ]
+                    in
+                        Expect.equal (Card "d" :: library) <|
+                            pushTop (Card "d") library
+            , test "to the bottom" <|
+                let
+                    library =
+                        [ Card "a", Card "b", Card "c" ]
+                in
+                    Expect.equal (Card "d" :: library) <|
+                        pushTop (Card "d") library
+            ]
         ]
