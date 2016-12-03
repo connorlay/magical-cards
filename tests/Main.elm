@@ -1,6 +1,6 @@
 port module Main exposing (..)
 
-import Tests
+import Tests exposing (..)
 import Test.Runner.Node exposing (run, TestProgram)
 import Json.Encode exposing (Value)
 
