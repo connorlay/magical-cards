@@ -5,11 +5,13 @@ import Expect
 import Fuzz exposing (list, int, tuple, string)
 import String
 import Library.Library exposing (..)
+import Hand.Hand exposing (..)
+import Card exposing (..)
 
 
 all : Test
 all =
-    Test.concat [ library ]
+    Test.concat [ library, hand ]
 
 
 library : Test
@@ -37,7 +39,7 @@ library =
                                 [ Card "a", Card "b", Card "c" ]
                         in
                             Expect.equal ( Just (Card "b"), [ Card "a", Card "c" ] ) <|
-                                removeByName "b" library
+                                Library.Library.removeByName "b" library
                 , test "card is not present" <|
                     \() ->
                         let
@@ -45,7 +47,7 @@ library =
                                 [ Card "a", Card "b" ]
                         in
                             Expect.equal ( Nothing, [ Card "a", Card "b" ] ) <|
-                                removeByName "c" library
+                                Library.Library.removeByName "c" library
                 ]
             , describe "from the bottom" <|
                 [ test "non-empty library" <|
@@ -78,5 +80,29 @@ library =
                     in
                         Expect.equal (library ++ [ Card "d" ]) <|
                             pushBottom (Card "d") library
+            ]
+        ]
+
+
+hand : Test
+hand =
+    describe "Hand module"
+        [ describe "Adding a card" <|
+            [ test "a single card" <|
+                \() ->
+                    let
+                        hand =
+                            [ Card "a", Card "b" ]
+                    in
+                        Expect.equal [ Card "c", Card "a", Card "b" ] <| add (Card "c") hand
+            ]
+        , describe "Removing a card" <|
+            [ test "by name" <|
+                \() ->
+                    let
+                        hand =
+                            [ Card "a", Card "b" ]
+                    in
+                        Expect.equal ( Just (Card "b"), [ Card "a" ] ) <| Hand.Hand.removeByName "b" hand
             ]
         ]
