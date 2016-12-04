@@ -11,6 +11,11 @@ type alias Library =
     List Card
 
 
+init : Library
+init =
+    []
+
+
 pop : Library -> ( Maybe Card, Library )
 pop library =
     case library of
@@ -33,17 +38,17 @@ pushBottom card library =
 
 removeByName : String -> Library -> ( Maybe Card, Library )
 removeByName name library =
-  remove (\card -> card.name == name) [] library
+    remove (\card -> card.name == name) [] library
 
 
-remove : ( a -> Bool ) -> List a -> List a -> ( Maybe a, List a )
+remove : (a -> Bool) -> List a -> List a -> ( Maybe a, List a )
 remove predicate before after =
-  case after of
-    [] ->
-        ( Nothing, before )
+    case after of
+        [] ->
+            ( Nothing, before )
 
-    x :: xs ->
-      if predicate x then
-        ( Just x, before ++ xs )
-      else
-        remove predicate (before ++ [ x ]) xs
+        x :: xs ->
+            if predicate x then
+                ( Just x, before ++ xs )
+            else
+                remove predicate (before ++ [ x ]) xs
