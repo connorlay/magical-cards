@@ -2,6 +2,7 @@ port module MagicalCards exposing (..)
 
 import Html exposing (..)
 import Library.Library exposing (..)
+import Hand.Hand exposing (..)
 import List exposing (..)
 
 
@@ -21,14 +22,19 @@ main =
 type alias Library =
     Library.Library.Library
 
+type alias Hand =
+    Hand.Hand.Hand
+
 
 type alias Model =
-    { library : Library }
+    { library : Library
+    , hand : Hand
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model Library.Library.init, Cmd.none )
+    ( Model Library.Library.init Hand.Hand.init, Cmd.none )
 
 
 
@@ -50,7 +56,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    text <| ([] |> List.length |> toString) ++ " cards in library"
+    div []
+        [ text <| (model.library |> List.length |> toString) ++ " cards in library"
+        , text <| (model.hand |> List.length |> toString) ++ " cards in hand"
+        ]
 
 
 

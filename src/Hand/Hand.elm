@@ -9,6 +9,11 @@ type alias Hand =
     List Card
 
 
+init : Hand
+init =
+    []
+
+
 add : Card -> Hand -> Hand
 add card hand =
     card :: hand
