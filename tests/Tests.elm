@@ -7,11 +7,34 @@ import String
 import Library.Library exposing (..)
 import Hand.Hand exposing (..)
 import Card exposing (..)
+import MagicalCards exposing (..)
 
 
 all : Test
 all =
-    Test.concat [ library, hand ]
+    Test.concat [ library, hand, cardMovement ]
+
+
+cardMovement : Test
+cardMovement =
+    describe "Cards moving between zones"
+        [ describe "drawing a card"
+            [ test "a single card" <|
+                \() ->
+                    let
+                        initial =
+                            { library = [ Card "a", Card "b", Card "c" ]
+                            , hand = [ Card "h" ]
+                            }
+
+                        expected =
+                            { library = [ Card "b", Card "c" ]
+                            , hand = [ Card "a", Card "h" ]
+                            }
+                    in
+                        Expect.equal expected <| drawCard initial
+            ]
+        ]
 
 
 library : Test
