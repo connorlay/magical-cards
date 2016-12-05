@@ -5,8 +5,8 @@ import Expect
 import Fuzz exposing (list, int, tuple, string)
 import String
 import Library.Library exposing (..)
-import Hand.Hand exposing (..)
 import Card exposing (..)
+import HandTests exposing (..)
 import MagicalCards exposing (..)
 
 
@@ -106,26 +106,3 @@ library =
             ]
         ]
 
-
-hand : Test
-hand =
-    describe "Hand module"
-        [ describe "Adding a card" <|
-            [ test "a single card" <|
-                \() ->
-                    let
-                        hand =
-                            [ Card "a", Card "b" ]
-                    in
-                        Expect.equal [ Card "c", Card "a", Card "b" ] <| add (Card "c") hand
-            ]
-        , describe "Removing a card" <|
-            [ test "by name" <|
-                \() ->
-                    let
-                        hand =
-                            [ Card "a", Card "b" ]
-                    in
-                        Expect.equal ( Just (Card "b"), [ Card "a" ] ) <| Hand.Hand.removeByName "b" hand
-            ]
-        ]
