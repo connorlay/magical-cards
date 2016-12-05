@@ -24,10 +24,10 @@ library =
                                 [ Card "a", Card "b", Card "c" ]
                         in
                             Expect.equal ( Just (Card "a"), [ Card "b", Card "c" ] ) <|
-                                pop library
+                                popTop library
                 , test "empty library" <|
                     \() ->
-                        Expect.equal ( Nothing, [] ) <| pop []
+                        Expect.equal ( Nothing, [] ) <| popTop []
                 ]
             , describe "by name" <|
                 [ test "card is present" <|
@@ -46,6 +46,19 @@ library =
                         in
                             Expect.equal ( Nothing, [ Card "a", Card "b" ] ) <|
                                 removeByName "c" library
+                ]
+            , describe "from the bottom" <|
+                [ test "non-empty library" <|
+                    \() ->
+                        let
+                            library =
+                                [ Card "a", Card "b", Card "c" ]
+                        in
+                            Expect.equal ( Just (Card "c"), [ Card "a", Card "b" ] ) <|
+                                popBottom library
+                , test "empty library" <|
+                    \() ->
+                        Expect.equal ( Nothing, [] ) <| popBottom []
                 ]
             ]
         , describe "adding a card"
