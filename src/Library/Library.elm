@@ -3,6 +3,7 @@ module Library.Library exposing (..)
 import Maybe exposing (..)
 import List exposing (..)
 import Card exposing (..)
+import List exposing (..)
 import Util.ListUtil exposing (..)
 
 
@@ -10,9 +11,9 @@ type alias Library =
     List Card
 
 
-init : Library
-init =
-    []
+init : Int -> Library
+init cardCount =
+    repeat cardCount (Card "fake")
 
 
 popTop : Library -> ( Maybe Card, Library )
