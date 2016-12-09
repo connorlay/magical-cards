@@ -2,19 +2,18 @@ module Library.Library exposing (..)
 
 import Maybe exposing (..)
 import List exposing (..)
-
-
-type alias Card =
-    { name : String }
+import Card exposing (..)
+import List exposing (..)
+import Util.ListUtil exposing (..)
 
 
 type alias Library =
     List Card
 
 
-init : Library
-init =
-    []
+init : Int -> Library
+init cardCount =
+    repeat cardCount (Card "fake")
 
 
 popTop : Library -> ( Maybe Card, Library )
@@ -56,17 +55,4 @@ pushBottom card library =
 
 removeByName : String -> Library -> ( Maybe Card, Library )
 removeByName name library =
-    remove (\card -> card.name == name) [] library
-
-
-remove : (a -> Bool) -> List a -> List a -> ( Maybe a, List a )
-remove predicate before after =
-    case after of
-        [] ->
-            ( Nothing, before )
-
-        x :: xs ->
-            if predicate x then
-                ( Just x, before ++ xs )
-            else
-                remove predicate (before ++ [ x ]) xs
+    Util.ListUtil.remove (\card -> card.name == name) [] library

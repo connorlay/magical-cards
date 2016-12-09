@@ -1,7 +1,9 @@
 port module MagicalCards exposing (..)
 
 import Html exposing (..)
+import Html.Events exposing (..)
 import Library.Library exposing (..)
+import Hand.Hand exposing (..)
 import List exposing (..)
 
 
@@ -22,13 +24,19 @@ type alias Library =
     Library.Library.Library
 
 
+type alias Hand =
+    Hand.Hand.Hand
+
+
 type alias Model =
-    { library : Library }
+    { library : Library
+    , hand : Hand
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model Library.Library.init, Cmd.none )
+    ( Model (Library.Library.init 5) Hand.Hand.init, Cmd.none )
 
 
 
@@ -37,11 +45,38 @@ init =
 
 type Msg
     = LibraryMsg
+    | HandMsg
+    | DrawCard
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        LibraryMsg ->
+            ( model, Cmd.none )
+
+        HandMsg ->
+            ( model, Cmd.none )
+
+        DrawCard ->
+            ( drawCard model, Cmd.none )
+
+
+drawCard : Model -> Model
+drawCard model =
+    let
+        ( card, library ) =
+            popTop model.library
+
+        hand =
+            case card of
+                Nothing ->
+                    model.hand
+
+                Just c ->
+                    add c model.hand
+    in
+        { model | library = library, hand = hand }
 
 
 
@@ -50,7 +85,11 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    text <| ([] |> List.length |> toString) ++ " cards in library"
+    div []
+        [ text <| (model.library |> List.length |> toString) ++ " cards in library"
+        , text <| (model.hand |> List.length |> toString) ++ " cards in hand"
+        , button [ onClick DrawCard ] [ text "Draw Card" ]
+        ]
 
 
 
