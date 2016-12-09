@@ -12,7 +12,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1280, height: 720});
+  mainWindow = new BrowserWindow({width: 1280, height: 720, experimentalFeatures: true});
   mainWindow.setMenu(null);
 
   // and load the index.html of the app.
