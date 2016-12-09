@@ -66,7 +66,7 @@ drawCard : Model -> Model
 drawCard model =
     let
         ( card, library ) =
-            pop model.library
+            popTop model.library
 
         hand =
             case card of

@@ -17,10 +17,10 @@ library =
                                 [ Card "a", Card "b", Card "c" ]
                         in
                             Expect.equal ( Just (Card "a"), [ Card "b", Card "c" ] ) <|
-                                pop library
+                                popTop library
                 , test "empty library" <|
                     \() ->
-                        Expect.equal ( Nothing, [] ) <| pop []
+                        Expect.equal ( Nothing, [] ) <| popTop []
                 ]
             , describe "by name" <|
                 [ test "card is present" <|
