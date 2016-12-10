@@ -69,6 +69,7 @@ update msg model =
         ShuffleLibrary ->
             ( model, Cmd.map LibraryMsg (Library.Command.randomOrder (List.length model.library)) )
 
+
 handleLibraryMsg : Library.Message.Msg -> Model -> ( Model, Cmd Msg )
 handleLibraryMsg msg model =
     case msg of
@@ -108,7 +109,13 @@ view model =
         , text <| (model.hand |> List.length |> toString) ++ " cards in hand"
         , button [ onClick DrawCard ] [ text "Draw Card" ]
         , button [ onClick ShuffleLibrary ] [ text "Shuffle Library" ]
+        , div [] <| listCards model
         ]
+
+
+listCards : Model -> List (Html Msg)
+listCards model =
+    List.map (\card -> text card.name) model.library
 
 
 

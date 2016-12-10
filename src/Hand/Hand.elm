@@ -19,6 +19,7 @@ add : Card -> Hand -> Hand
 add card hand =
     card :: hand
 
+
 removeByName : String -> Hand -> ( Maybe Card, Hand )
 removeByName name hand =
     Util.ListUtil.remove (\card -> card.name == name) [] hand

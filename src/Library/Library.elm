@@ -16,12 +16,17 @@ init : List String -> Library
 init names =
     List.map Card names
 
+
+
 -- UPDATE
+
+
 update : Msg -> Library -> Library
 update msg model =
     case msg of
         Shuffle newOrder ->
             shuffle model newOrder
+
 
 popTop : Library -> ( Maybe Card, Library )
 popTop library =
@@ -32,23 +37,30 @@ popTop library =
         x :: xs ->
             ( Just x, xs )
 
+
 popBottom : Library -> ( Maybe Card, Library )
 popBottom library =
     case library of
         [] ->
             ( Nothing, [] )
+
         xs ->
             let
+                backwards =
+                    reverse xs
                 card =
-                    reverse xs |> head
+                    head backwards
+
                 rest =
-                    reverse xs |> tail
+                    tail backwards
             in
                 case rest of
                     Nothing ->
                         ( card, [] )
+
                     Just r ->
                         ( card, reverse r )
+
 
 pushTop : Card -> Library -> Library
 pushTop card library =
@@ -64,6 +76,7 @@ removeByName : String -> Library -> ( Maybe Card, Library )
 removeByName name library =
     Util.ListUtil.remove (\card -> card.name == name) [] library
 
+
 shuffle : Library -> List Int -> Library
 shuffle library newOrder =
     library
@@ -71,4 +84,3 @@ shuffle library newOrder =
         |> sortBy Tuple.first
         |> List.unzip
         |> Tuple.second
-
