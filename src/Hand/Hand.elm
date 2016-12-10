@@ -2,6 +2,7 @@ module Hand.Hand exposing (..)
 
 import Card exposing (..)
 import Maybe exposing (..)
+import List exposing (..)
 import Util.ListUtil exposing (..)
 
 
@@ -9,9 +10,9 @@ type alias Hand =
     List Card
 
 
-init : Hand
-init =
-    []
+init : List String -> Hand
+init names =
+    List.map Card names
 
 
 add : Card -> Hand -> Hand
