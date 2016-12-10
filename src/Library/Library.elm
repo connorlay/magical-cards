@@ -4,6 +4,7 @@ import Maybe exposing (..)
 import List exposing (..)
 import Card exposing (..)
 import List exposing (..)
+import Library.Message exposing (..)
 import Util.ListUtil exposing (..)
 
 
@@ -14,6 +15,13 @@ type alias Library =
 init : List String -> Library
 init names =
     List.map Card names
+
+-- UPDATE
+update : Msg -> Library -> Library
+update msg model =
+    case msg of
+        Shuffle newOrder ->
+            shuffle model newOrder
 
 popTop : Library -> ( Maybe Card, Library )
 popTop library =

@@ -3,6 +3,8 @@ port module MagicalCards exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Library.Library exposing (..)
+import Library.Command exposing (..)
+import Library.Message exposing (..)
 import Hand.Hand exposing (..)
 import List exposing (..)
 
@@ -36,7 +38,9 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model (Library.Library.init [ "a", "b", "c" ]) (Hand.Hand.init []), Cmd.none )
+    ( Model (Library.Library.init [ "a", "b", "c" ]) (Hand.Hand.init [])
+    , Cmd.none
+    )
 
 
 
@@ -44,22 +48,36 @@ init =
 
 
 type Msg
-    = LibraryMsg
+    = LibraryMsg Library.Message.Msg
     | HandMsg
     | DrawCard
+    | ShuffleLibrary
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        LibraryMsg ->
-            ( model, Cmd.none )
+        LibraryMsg submsg ->
+            handleLibraryMsg submsg model
 
         HandMsg ->
             ( model, Cmd.none )
 
         DrawCard ->
             ( drawCard model, Cmd.none )
+
+        ShuffleLibrary ->
+            ( model, Cmd.map LibraryMsg (Library.Command.randomOrder (List.length model.library)) )
+
+handleLibraryMsg : Library.Message.Msg -> Model -> ( Model, Cmd Msg )
+handleLibraryMsg msg model =
+    case msg of
+        Shuffle newOrder ->
+            let
+                shuffled =
+                    Library.Library.shuffle model.library newOrder
+            in
+                ( { model | library = shuffled }, Cmd.none )
 
 
 drawCard : Model -> Model
@@ -89,6 +107,7 @@ view model =
         [ text <| (model.library |> List.length |> toString) ++ " cards in library"
         , text <| (model.hand |> List.length |> toString) ++ " cards in hand"
         , button [ onClick DrawCard ] [ text "Draw Card" ]
+        , button [ onClick ShuffleLibrary ] [ text "Shuffle Library" ]
         ]
 
 
