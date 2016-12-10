@@ -55,3 +55,12 @@ pushBottom card library =
 removeByName : String -> Library -> ( Maybe Card, Library )
 removeByName name library =
     Util.ListUtil.remove (\card -> card.name == name) [] library
+
+shuffle : Library -> List Int -> Library
+shuffle library newOrder =
+    library
+        |> List.map2 (,) newOrder
+        |> sortBy Tuple.first
+        |> List.unzip
+        |> Tuple.second
+
