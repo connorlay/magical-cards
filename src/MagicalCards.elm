@@ -36,7 +36,7 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model (Library.Library.init 5) Hand.Hand.init, Cmd.none )
+    ( Model (Library.Library.init ["a", "b", "c"]) Hand.Hand.init, Cmd.none )
 
 
 

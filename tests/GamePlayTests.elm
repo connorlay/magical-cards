@@ -13,12 +13,12 @@ cardMovement =
                 \() ->
                     let
                         initial =
-                            { library = [ Card "a", Card "b", Card "c" ]
+                            { library = init ["a", "b", "c" ]
                             , hand = [ Card "h" ]
                             }
 
                         expected =
-                            { library = [ Card "b", Card "c" ]
+                            { library = Library.init [ "b", "c" ]
                             , hand = [ Card "a", Card "h" ]
                             }
                     in

@@ -11,10 +11,9 @@ type alias Library =
     List Card
 
 
-init : Int -> Library
-init cardCount =
-    repeat cardCount (Card "fake")
-
+init : List String -> Library
+init names =
+    List.map Card names
 
 popTop : Library -> ( Maybe Card, Library )
 popTop library =
