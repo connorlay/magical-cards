@@ -17,11 +17,13 @@ cardMovement =
                         initial =
                             { library = Library.Library.init ["a", "b", "c" ]
                             , hand = Hand.Hand.init ["h"]
+                            , cardData = Nothing
                             }
 
                         expected =
                             { library = Library.Library.init [ "b", "c" ]
                             , hand = Hand.Hand.init [ "a", "h" ]
+                            , cardData = Nothing
                             }
                     in
                         Expect.equal expected <| drawCard initial
