@@ -151,6 +151,7 @@ displayJson model =
             text "No card data :("
 
 
+
 -- SUBSCRIPTIONS
 
 

@@ -7,6 +7,7 @@ import Library.Library exposing (..)
 import Hand.Hand exposing (..)
 import Card exposing (..)
 
+
 cardMovement : Test
 cardMovement =
     describe "Cards moving between zones"
@@ -15,8 +16,8 @@ cardMovement =
                 \() ->
                     let
                         initial =
-                            { library = Library.Library.init ["a", "b", "c" ]
-                            , hand = Hand.Hand.init ["h"]
+                            { library = Library.Library.init [ "a", "b", "c" ]
+                            , hand = Hand.Hand.init [ "h" ]
                             , cardData = Nothing
                             }
 
@@ -29,4 +30,3 @@ cardMovement =
                         Expect.equal expected <| drawCard initial
             ]
         ]
-
