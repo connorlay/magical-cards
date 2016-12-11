@@ -1,11 +1,10 @@
 module Library.Library exposing (..)
 
-import Maybe exposing (..)
-import List exposing (..)
-import Card exposing (..)
-import List exposing (..)
+import Maybe exposing (Maybe)
+import List exposing (map, sortBy, reverse, tail, head)
+import Card exposing (Card)
 import Library.Message exposing (..)
-import Util.ListUtil exposing (..)
+import Util.ListUtil exposing (remove)
 
 
 type alias Library =
