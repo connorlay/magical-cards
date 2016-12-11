@@ -1,9 +1,9 @@
 module Hand.Hand exposing (..)
 
-import Card exposing (..)
-import Maybe exposing (..)
-import List exposing (..)
-import Util.ListUtil exposing (..)
+import Card exposing (Card)
+import Maybe exposing (Maybe)
+import List exposing (map)
+import Util.ListUtil exposing (remove)
 
 
 type alias Hand =
@@ -18,6 +18,7 @@ init names =
 add : Card -> Hand -> Hand
 add card hand =
     card :: hand
+
 
 removeByName : String -> Hand -> ( Maybe Card, Hand )
 removeByName name hand =

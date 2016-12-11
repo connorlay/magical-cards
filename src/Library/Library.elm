@@ -1,10 +1,10 @@
 module Library.Library exposing (..)
 
-import Maybe exposing (..)
-import List exposing (..)
-import Card exposing (..)
-import List exposing (..)
-import Util.ListUtil exposing (..)
+import Maybe exposing (Maybe)
+import List exposing (map, sortBy, reverse, tail, head)
+import Card exposing (Card)
+import Library.Message exposing (..)
+import Util.ListUtil exposing (remove)
 
 
 type alias Library =
@@ -15,6 +15,18 @@ init : List String -> Library
 init names =
     List.map Card names
 
+
+
+-- UPDATE
+
+
+update : Msg -> Library -> Library
+update msg model =
+    case msg of
+        Shuffle newOrder ->
+            shuffle model newOrder
+
+
 popTop : Library -> ( Maybe Card, Library )
 popTop library =
     case library of
@@ -24,23 +36,30 @@ popTop library =
         x :: xs ->
             ( Just x, xs )
 
+
 popBottom : Library -> ( Maybe Card, Library )
 popBottom library =
     case library of
         [] ->
             ( Nothing, [] )
+
         xs ->
             let
+                backwards =
+                    reverse xs
                 card =
-                    reverse xs |> head
+                    head backwards
+
                 rest =
-                    reverse xs |> tail
+                    tail backwards
             in
                 case rest of
                     Nothing ->
                         ( card, [] )
+
                     Just r ->
                         ( card, reverse r )
+
 
 pushTop : Card -> Library -> Library
 pushTop card library =
@@ -55,3 +74,12 @@ pushBottom card library =
 removeByName : String -> Library -> ( Maybe Card, Library )
 removeByName name library =
     Util.ListUtil.remove (\card -> card.name == name) [] library
+
+
+shuffle : Library -> List Int -> Library
+shuffle library newOrder =
+    library
+        |> List.map2 (,) newOrder
+        |> sortBy Tuple.first
+        |> List.unzip
+        |> Tuple.second
