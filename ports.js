@@ -9,3 +9,7 @@ let container = document.getElementById('container')
 // embedd Elm app into container
 let magicalCards = Elm.MagicalCards.embed(container)
 
+// writeFile port
+magicalCards.ports.writeFile.subscribe((path, content) => {
+
+})
