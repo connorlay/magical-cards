@@ -55,8 +55,10 @@ init =
 type alias NetworkMsg =
     Network.MtgJson.Msg
 
+
 type alias FilePath =
     Electron.Ports.FilePath
+
 
 type alias Content =
     Electron.Ports.Content
@@ -69,7 +71,6 @@ type Msg
     | DrawCard
     | FetchJson
     | ShuffleLibrary
-    | WriteFile FilePath Content
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -93,13 +94,10 @@ update msg model =
         NetworkMsg submsg ->
             case submsg of
                 NewJson (Ok json) ->
-                    ( { model | cardData = Just json }, Cmd.none )
+                    ( { model | cardData = Just json }, writeFile ( "./data.json", json ) )
 
                 NewJson (Err _) ->
                     ( model, Cmd.none )
-
-        WriteFile filePath content ->
-            ( model, writeFile (filePath, content))
 
 
 handleLibraryMsg : Library.Message.Msg -> Model -> ( Model, Cmd Msg )
@@ -143,7 +141,6 @@ view model =
         , button [ onClick ShuffleLibrary ] [ text "Shuffle Library" ]
         , div [] <| listCards model
         , button [ onClick FetchJson ] [ text "Fetch Json" ]
-        , button [ onClick (WriteFile "./hello.txt" "hello world") ] [ text "Write File" ]
         , displayJson model
         ]
 

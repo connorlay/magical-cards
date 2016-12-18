@@ -11,7 +11,7 @@ getMtgJson : Cmd Msg
 getMtgJson =
     let
         url =
-            "https://mtgjson.com/json/LEA.json"
+            "https://mtgjson.com/json/AllCards.json"
 
         request =
             Http.getString url
