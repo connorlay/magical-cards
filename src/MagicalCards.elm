@@ -10,6 +10,7 @@ import List exposing (map)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Network.MtgJson exposing (..)
+import Electron.Ports exposing (..)
 
 
 main =
@@ -54,6 +55,12 @@ init =
 type alias NetworkMsg =
     Network.MtgJson.Msg
 
+type alias FilePath =
+    Electron.Ports.FilePath
+
+type alias Content =
+    Electron.Ports.Content
+
 
 type Msg
     = LibraryMsg Library.Message.Msg
@@ -62,6 +69,7 @@ type Msg
     | DrawCard
     | FetchJson
     | ShuffleLibrary
+    | WriteFile FilePath Content
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -89,6 +97,9 @@ update msg model =
 
                 NewJson (Err _) ->
                     ( model, Cmd.none )
+
+        WriteFile filePath content ->
+            ( model, writeFile (filePath, content))
 
 
 handleLibraryMsg : Library.Message.Msg -> Model -> ( Model, Cmd Msg )
@@ -132,6 +143,7 @@ view model =
         , button [ onClick ShuffleLibrary ] [ text "Shuffle Library" ]
         , div [] <| listCards model
         , button [ onClick FetchJson ] [ text "Fetch Json" ]
+        , button [ onClick (WriteFile "./hello.txt" "hello world") ] [ text "Write File" ]
         , displayJson model
         ]
 

@@ -1,6 +1,6 @@
-port module Ports exposing (..)
+port module Electron.Ports exposing (..)
 
-type alias Path = String
+type alias FilePath = String
 type alias Content = String
 
-port writeFile : Path -> Content -> Cmd msg
+port writeFile : (FilePath, Content) -> Cmd msg
