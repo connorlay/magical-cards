@@ -5,6 +5,8 @@ import List exposing (map, sortBy, reverse, tail, head)
 import Card exposing (Card)
 import Library.Message exposing (..)
 import Util.ListUtil exposing (remove)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 type alias Library =

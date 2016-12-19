@@ -2,6 +2,7 @@ port module MagicalCards exposing (..)
 
 import Html exposing (Html, div, text, button)
 import Html.Events exposing (onClick)
+import Html.Attributes exposing (src)
 import Library.Library exposing (Library, init, popTop)
 import Library.Command exposing (randomOrder)
 import Library.Message exposing (..)
@@ -142,6 +143,7 @@ view model =
         , div [] <| listCards model
         , button [ onClick FetchJson ] [ text "Fetch Json" ]
         , displayJson model
+        , div [] <| displayLibrary model.library
         ]
 
 
@@ -159,6 +161,10 @@ displayJson model =
         Nothing ->
             text "No card data :("
 
+
+displayLibrary : Library -> List (Html Msg)
+displayLibrary library =
+    [ img [ src "http://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=405134" ] [] ]
 
 
 -- SUBSCRIPTIONS
