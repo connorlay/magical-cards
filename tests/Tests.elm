@@ -12,4 +12,3 @@ import GamePlayTests exposing (..)
 all : Test
 all =
     Test.concat [ library, hand, cardMovement ]
-

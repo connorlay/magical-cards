@@ -47,6 +47,7 @@ popBottom library =
             let
                 backwards =
                     reverse xs
+
                 card =
                     head backwards
 

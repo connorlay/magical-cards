@@ -7,6 +7,10 @@ import Library.Command exposing (randomOrder)
 import Library.Message exposing (..)
 import Hand.Hand exposing (init, add)
 import List exposing (map)
+import Html exposing (..)
+import Html.Events exposing (..)
+import Network.MtgJson exposing (..)
+import Electron.Ports exposing (..)
 
 
 main =
@@ -33,12 +37,13 @@ type alias Hand =
 type alias Model =
     { library : Library
     , hand : Hand
+    , cardData : Maybe String
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model (Library.Library.init [ "a", "b", "c" ]) (Hand.Hand.init [])
+    ( Model (Library.Library.init [ "a", "b", "c" ]) (Hand.Hand.init []) Nothing
     , Cmd.none
     )
 
@@ -47,10 +52,24 @@ init =
 -- UPDATE
 
 
+type alias NetworkMsg =
+    Network.MtgJson.Msg
+
+
+type alias FilePath =
+    Electron.Ports.FilePath
+
+
+type alias Content =
+    Electron.Ports.Content
+
+
 type Msg
     = LibraryMsg Library.Message.Msg
+    | NetworkMsg NetworkMsg
     | HandMsg
     | DrawCard
+    | FetchJson
     | ShuffleLibrary
 
 
@@ -68,6 +87,17 @@ update msg model =
 
         ShuffleLibrary ->
             ( model, Cmd.map LibraryMsg (Library.Command.randomOrder (List.length model.library)) )
+
+        FetchJson ->
+            ( model, Cmd.map NetworkMsg getMtgJson )
+
+        NetworkMsg submsg ->
+            case submsg of
+                NewJson (Ok json) ->
+                    ( { model | cardData = Just json }, writeFile ( "./data.json", json ) )
+
+                NewJson (Err _) ->
+                    ( model, Cmd.none )
 
 
 handleLibraryMsg : Library.Message.Msg -> Model -> ( Model, Cmd Msg )
@@ -110,12 +140,24 @@ view model =
         , button [ onClick DrawCard ] [ text "Draw Card" ]
         , button [ onClick ShuffleLibrary ] [ text "Shuffle Library" ]
         , div [] <| listCards model
+        , button [ onClick FetchJson ] [ text "Fetch Json" ]
+        , displayJson model
         ]
 
 
 listCards : Model -> List (Html Msg)
 listCards model =
     List.map (\card -> text card.name) model.library
+
+
+displayJson : Model -> Html Msg
+displayJson model =
+    case model.cardData of
+        Just json ->
+            text json
+
+        Nothing ->
+            text "No card data :("
 
 
 
