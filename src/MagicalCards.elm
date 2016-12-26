@@ -2,15 +2,19 @@ port module MagicalCards exposing (..)
 
 import Html exposing (Html, div, text, button)
 import Html.Events exposing (onClick)
-import Library.Library exposing (Library, init, popTop)
+import Html.Attributes exposing (src)
+import Library.Model exposing (Library, init)
+import Library.Update exposing (update)
 import Library.Command exposing (randomOrder)
 import Library.Message exposing (..)
-import Hand.Hand exposing (init, add)
+import Hand.Model exposing (Hand, init)
+import Actions exposing (drawCard)
 import List exposing (map)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Network.MtgJson exposing (..)
 import Electron.Ports exposing (..)
+import Data.List.Extensions exposing (shuffle)
 
 
 main =
@@ -26,14 +30,6 @@ main =
 -- MODEL
 
 
-type alias Library =
-    Library.Library.Library
-
-
-type alias Hand =
-    Hand.Hand.Hand
-
-
 type alias Model =
     { library : Library
     , hand : Hand
@@ -43,7 +39,7 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model (Library.Library.init [ "a", "b", "c" ]) (Hand.Hand.init []) Nothing
+    ( Model (Library.Model.init [ "a", "b", "c" ]) (Hand.Model.init []) Nothing
     , Cmd.none
     )
 
@@ -83,7 +79,11 @@ update msg model =
             ( model, Cmd.none )
 
         DrawCard ->
-            ( drawCard model, Cmd.none )
+            let
+                ( library, hand ) =
+                    Actions.drawCard model.library model.hand
+            in
+                ( { model | library = library, hand = hand }, Cmd.none )
 
         ShuffleLibrary ->
             ( model, Cmd.map LibraryMsg (Library.Command.randomOrder (List.length model.library)) )
@@ -106,26 +106,9 @@ handleLibraryMsg msg model =
         Shuffle newOrder ->
             let
                 shuffled =
-                    Library.Library.shuffle model.library newOrder
+                    shuffle model.library newOrder
             in
                 ( { model | library = shuffled }, Cmd.none )
-
-
-drawCard : Model -> Model
-drawCard model =
-    let
-        ( card, library ) =
-            popTop model.library
-
-        hand =
-            case card of
-                Nothing ->
-                    model.hand
-
-                Just c ->
-                    add c model.hand
-    in
-        { model | library = library, hand = hand }
 
 
 
@@ -142,6 +125,7 @@ view model =
         , div [] <| listCards model
         , button [ onClick FetchJson ] [ text "Fetch Json" ]
         , displayJson model
+        , div [] <| displayLibrary model.library
         ]
 
 
@@ -158,6 +142,11 @@ displayJson model =
 
         Nothing ->
             text "No card data :("
+
+
+displayLibrary : Library -> List (Html Msg)
+displayLibrary library =
+    [ img [ src "http://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid=405134" ] [] ]
 
 
 

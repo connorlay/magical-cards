@@ -2,7 +2,9 @@ module LibraryTests exposing (..)
 
 import Test exposing (..)
 import Expect
-import Library.Library exposing (..)
+import Library.Model exposing (..)
+import Library.Update exposing (..)
+import Data.List.Extensions exposing (..)
 import Card exposing (..)
 
 
@@ -38,7 +40,7 @@ removingACard =
                             [ Card "a", Card "b", Card "c" ]
                     in
                         Expect.equal ( Just (Card "b"), [ Card "a", Card "c" ] ) <|
-                            Library.Library.removeByName "b" library
+                            removeByName "b" library
             , test "card is not present" <|
                 \() ->
                     let
@@ -46,7 +48,7 @@ removingACard =
                             [ Card "a", Card "b" ]
                     in
                         Expect.equal ( Nothing, [ Card "a", Card "b" ] ) <|
-                            Library.Library.removeByName "c" library
+                            removeByName "c" library
             ]
         , describe "from the bottom" <|
             [ test "non-empty library" <|
@@ -93,13 +95,13 @@ shuffling =
             \() ->
                 let
                     initial =
-                        Library.Library.init [ "a", "b", "c" ]
+                        Library.Model.init [ "a", "b", "c" ]
 
                     newOrder =
                         [ 3, 1, 2 ]
 
                     expected =
-                        Library.Library.init [ "c", "a", "b" ]
+                        Library.Model.init [ "c", "a", "b" ]
                 in
                     Expect.equal expected <| shuffle initial newOrder
         , test "empty library" <|
