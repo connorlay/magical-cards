@@ -6,7 +6,7 @@ import Fuzz exposing (list, int, tuple, string)
 import String
 import LibraryTests exposing (..)
 import HandTests exposing (..)
-import GamePlayTests exposing (..)
+import ActionsTests exposing (..)
 
 
 all : Test

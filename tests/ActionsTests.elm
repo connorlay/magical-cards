@@ -1,4 +1,4 @@
-module GamePlayTests exposing (..)
+module ActionsTests exposing (..)
 
 import Test exposing (..)
 import Expect
