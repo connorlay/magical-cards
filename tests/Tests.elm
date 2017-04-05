@@ -7,8 +7,9 @@ import String
 import LibraryTests exposing (..)
 import HandTests exposing (..)
 import ActionsTests exposing (..)
+import ListExtensionTests exposing (..)
 
 
 all : Test
 all =
-    Test.concat [ library, hand, cardMovement ]
+    Test.concat [ library, hand, cardMovement, listExtensions ]
